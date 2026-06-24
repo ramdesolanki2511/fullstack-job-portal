@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import api from "@/services/api";
-import Link from "next/link";
 
-export default function Jobs() {
+import api from "@/services/api";
+
+export default function MyJobs() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -12,26 +12,20 @@ export default function Jobs() {
   }, []);
 
   const fetchJobs = async () => {
-    const res = await api.get("/jobs");
+    const res = await api.get("/jobs/my-jobs");
 
     setJobs(res.data);
   };
 
   return (
     <div>
-      <h1>Jobs</h1>
+      <h2>My Jobs</h2>
 
       {jobs.map((job: any) => (
         <div key={job._id}>
           <h3>{job.title}</h3>
 
           <p>{job.company}</p>
-
-          <p>{job.location}</p>
-
-          <Link href={`/jobs/${job._id}`}>
-            View Details
-        </Link>
         </div>
       ))}
     </div>
