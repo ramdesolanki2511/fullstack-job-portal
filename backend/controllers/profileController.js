@@ -26,13 +26,13 @@ exports.updateProfile = async (req, res) => {
 
 exports.uploadResume = async (req, res) => {
   try {
-    const resumeUrl = `/uploads/${req.file.filename}`;
+    const resumeUrl = `/uploads/${req.file.path}`;
 
     const user = await User.findByIdAndUpdate(
       req.user.id,
 
       {
-        resume: resumeUrl,
+        resume: req.file.path,
       },
 
       {

@@ -24,6 +24,22 @@ exports.applyJob = async (req, res) => {
       });
     }
 
+    await transporter.sendMail({
+      to: candidate.email,
+
+      subject: "Application Submitted",
+
+      html: "<h2>Your application has been submitted successfully.</h2>",
+    });
+
+    await transporter.sendMail({
+      to: recruiter.email,
+
+      subject: "New Application Received",
+
+      html: "<h2>A new candidate applied for your job.</h2>",
+    });
+
     const application = await Application.create({
       candidateId: req.user.id,
       jobId,

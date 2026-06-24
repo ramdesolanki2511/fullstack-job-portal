@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://fullstack-job-portal-1i4t.onrender.com",
 });
 
 api.interceptors.request.use((config) => {
