@@ -72,3 +72,17 @@ exports.deleteJob = async (req, res) => {
     });
   }
 };
+
+exports.myJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find({
+      postedBy: req.user.id,
+    });
+
+    res.json(jobs);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
