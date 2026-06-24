@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import api from "@/services/api";
+import Link from "next/link";
 
 export default function Applicants() {
   const params = useParams();
@@ -40,6 +41,13 @@ export default function Applicants() {
           <p>{app.candidateId?.email}</p>
 
           <p>{app.status}</p>
+
+          <Link
+            href={`http://localhost:5000${app.candidateId.resume}`}
+            target="_blank"
+          >
+            View Resume
+          </Link>
 
           <button onClick={() => updateStatus(app._id, "Shortlisted")}>
             Shortlist
