@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import api from "@/services/api";
+import toast from "react-hot-toast";
 
 export default function CreateJobForm() {
   const [form, setForm] = useState({
@@ -19,7 +20,7 @@ export default function CreateJobForm() {
     try {
       await api.post("/jobs", form);
 
-      alert("Job Created");
+      toast.success("Job Created");
     } catch (error) {
       console.log(error);
     }

@@ -5,16 +5,19 @@ import api from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button";
 
 export default function Login() {
   const { setUser } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setLoading(true);
 
     try {
       const res = await api.post("/auth/login", {
@@ -31,6 +34,8 @@ export default function Login() {
       router.push("/dashboard");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,7 +49,7 @@ export default function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button>Login</button>
+      <Button title="Login" loading={loading} />
     </form>
   );
 }

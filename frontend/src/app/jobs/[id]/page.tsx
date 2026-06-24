@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import api from "@/services/api";
+import toast from "react-hot-toast";
 
 export default function JobDetails() {
   const params = useParams();
@@ -29,9 +30,9 @@ export default function JobDetails() {
         jobId: params.id,
       });
 
-      alert("Applied Successfully");
+      toast.success("Applied Successfully");
     } catch (error: any) {
-      alert(error.response?.data?.message);
+      toast.error(error.response?.data?.message);
     }
   };
 

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import api from "@/services/api";
+import toast from "react-hot-toast";
+import Button from "@/components/Button";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -10,16 +12,21 @@ export default function Register() {
     password: "",
     role: "candidate",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setLoading(true);
+
     try {
       await api.post("/auth/register", form);
-
-      alert("Registration Success");
+      
+      toast.success("Registration Success");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,7 +79,7 @@ export default function Register() {
           <option value="recruiter">Recruiter</option>
         </select>
 
-        <button>Register</button>
+        <Button title="Register" loading={loading} />
       </form>
     </div>
   );

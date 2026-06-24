@@ -1,6 +1,8 @@
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
+import StoreProvider from "@/store/provider";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -10,10 +12,13 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <AuthProvider>
-          <Navbar />
-          {children}
-        </AuthProvider>
+        <StoreProvider>
+          <AuthProvider>
+            <Navbar />
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </StoreProvider>
       </body>
     </html>
   );

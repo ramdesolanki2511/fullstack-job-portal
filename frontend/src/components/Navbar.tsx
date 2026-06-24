@@ -25,6 +25,8 @@ export default function Navbar() {
         <Link href="/recruiter">Recruiter Panel</Link>
       )}
 
+      {user?.role === "admin" && <Link href="/admin">Admin</Link>}
+
       {user && (
         <>
           <Link href="/dashboard">Dashboard</Link>
