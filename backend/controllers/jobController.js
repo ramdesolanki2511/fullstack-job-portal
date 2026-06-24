@@ -17,9 +17,71 @@ exports.createJob = async (req, res) => {
 
 exports.getJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate("postedBy", "name email");
+    const {
+      keyword,
+      location,
+      experience,
+      page = 1,
+      limit = 10,
+      sort = "latest",
+    } = req.query;
 
-    res.json(jobs);
+    let query = {};
+
+    if (keyword) {
+      query.$or = [
+        {
+          title: {
+            $regex: keyword,
+            $options: "i",
+          },
+        },
+        {
+          company: {
+            $regex: keyword,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    if (location) {
+      query.location = {
+        $regex: location,
+        $options: "i",
+      };
+    }
+
+    if (experience) {
+      query.experience = {
+        $regex: experience,
+        $options: "i",
+      };
+    }
+
+    let sortOption = {};
+
+    if (sort === "latest") {
+      sortOption.createdAt = -1;
+    }
+
+    if (sort === "oldest") {
+      sortOption.createdAt = 1;
+    }
+
+    const jobs = await Job.find(query)
+      .sort(sortOption)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const totalJobs = await Job.countDocuments(query);
+
+    res.json({
+      jobs,
+      totalJobs,
+      totalPages: Math.ceil(totalJobs / limit),
+      currentPage: Number(page),
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,
