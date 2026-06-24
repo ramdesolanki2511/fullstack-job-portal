@@ -16,8 +16,8 @@ const {
 router.post("/", auth, createJob, recruiterMiddleware);
 router.get("/", getJobs);
 router.get("/:id", getJobById);
-router.put("/:id", auth, updateJob);
-router.delete("/:id", auth, deleteJob);
+router.put("/:id", auth, recruiterMiddleware, updateJob);
+router.delete("/:id", auth, recruiterMiddleware, deleteJob);
 router.get("/my-jobs", auth, myJobs);
 
 module.exports = router;
